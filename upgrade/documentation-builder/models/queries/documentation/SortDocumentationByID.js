@@ -11,8 +11,8 @@ module.exports = ids => {
     Documentation.find({}).sort({ sorting: 1 });
   });
 }; //* end of exports */
-/* Sort pages function */
-/* rebuild so that pages sort in category view use all pages id to not mess up ordering */
+/* Sort documentation function */
+/* rebuild so that documentation sort in category view use all pages id to not mess up ordering */
 function sortDocumentation(ids, cb) {
   let count = 0;
 
@@ -21,9 +21,9 @@ function sortDocumentation(ids, cb) {
     count++;
 
     (function(count) {
-      Project.findById(id).then(project => {
-        project.sorting = count;
-        project.save();
+      Documentation.findById(id).then(doc => {
+        doc.sorting = count;
+        doc.save();
 
         ++count;
         if (count >= ids.length) {
@@ -32,4 +32,4 @@ function sortDocumentation(ids, cb) {
       });
     })(count);
   }
-} /* end of sort pages function */
+} /* end of sort documentation function */

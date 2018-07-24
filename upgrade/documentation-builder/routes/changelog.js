@@ -12,6 +12,11 @@ const changelogController = require("../controllers/changelog_controller");
 router.get("/", isAdmin, changelogController.index);
 
 /*
+* GET log cats index
+*/
+router.get("/sorted/:category", isAdmin, changelogController.catIndex);
+
+/*
 * GET, POST add log
 */
 router

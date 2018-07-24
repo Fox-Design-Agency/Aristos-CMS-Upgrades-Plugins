@@ -10,6 +10,7 @@ const CreateLogs = require("../models/queries/changelog/CreateLogs");
 const EditLogs = require("../models/queries/changelog/EditLog");
 const DeleteLogs = require("../models/queries/changelog/DeleteLog");
 const FindAllSortedLogs = require("../models/queries/changelog/FindAllSortedLogs");
+const FindSortedLogsWithParam = require("../models/queries/changelog/FindSortedLogsWithParams");
 const FindAllRevSortedLogs = require("../models/queries/changelog/FindAllSortedLogs");
 const sortLogsById = require("../models/queries/changelog/SortLogByID");
 /* media model Queries */
@@ -22,15 +23,30 @@ const FindAllDocumentationCategories = require("../models/queries/documentationC
 const FindOneUserByID = require("../../../../important/admin/adminModels/queries/user/FindOneUserWithID");
 module.exports = {
   index(req, res, next) {
-    FindAllRevSortedLogs().then(logs => {
+    const cats = FindAllDocumentationCategories();
+    const sorted = FindAllRevSortedLogs();
+    Promise.all([sorted, cats]).then(result => {
       res.render(
         "../../../expansion/upgrade/documentation-builder/views/changelog",
         {
-          projects: logs
+          projects: result[0],
+          categories: result[1]
         }
       );
     });
   } /* end of index function */,
+  catIndex(req, res, next) {
+    const cats = FindAllDocumentationCategories();
+    const sorted = FindSortedLogsWithParam({ category: req.params.category });
+    Promise.all([sorted, cats]).then(result => {
+      res.render(
+      "../../../expansion/upgrade/documentation-builder/views/changelog",
+        {
+          projects: result[0],
+          categories: result[1]
+        });
+    });
+  } /* end of cat index function */,
   addIndex(req, res, next) {
     let title,
       content,
@@ -127,7 +143,7 @@ module.exports = {
                 category: category,
                 description: description,
                 keywords: keywords,
-                sorting: 100,
+                sorting: 1,
                 author: author
               };
               CreateLogs(ProjectProps);
@@ -243,4 +259,3 @@ module.exports = {
     });
   }
 };
-

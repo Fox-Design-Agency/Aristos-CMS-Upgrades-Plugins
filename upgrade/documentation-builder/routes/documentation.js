@@ -12,6 +12,12 @@ const documentationController = require("../controllers/documentation_controller
 router.get("/", isAdmin, documentationController.index);
 
 /*
+* GET documentation cats index
+*/
+router.get("/sorted/:category", isAdmin, documentationController.catIndex);
+
+
+/*
 * GET, POST add documentation
 */
 router

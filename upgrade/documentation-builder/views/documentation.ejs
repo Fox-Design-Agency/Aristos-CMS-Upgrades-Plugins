@@ -12,7 +12,22 @@
             <a href="/admin/documentation-builder-categories/add-documentation-category">Add a New Category</a>
         </button>
     </div>
+    <div class="button-row">
 
+    <button class="admin-button admin-button--main">
+        <a href="/admin/documentation-builder/">All Categories</a>
+    </button>
+
+<% categories.forEach(function(category){ %>
+    
+        <button  class="admin-button admin-button--main">
+            <a href="/admin/documentation-builder/sorted/<%= category.slug %>">
+                <%= category.title %>
+            </a>
+        </button>
+   
+    <% }) %> 
+    </div>
     <table class="admin-table">
         <thead>
             <tr class="home">
@@ -53,7 +68,7 @@
             placeholder: "ui-state-hightlight",
             update: function () {
                 let ids = $("tbody").sortable("serialize");
-                let url = "/admin/portfolio/reorder-pages";
+                let url = "/admin/documentation-builder/reorder-documentation";
                 $.post(url, ids);
             }
         });

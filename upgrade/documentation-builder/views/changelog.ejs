@@ -12,7 +12,22 @@
             <a href="/admin/documentation-builder-categories/add-documentation-category">Add a New Category</a>
         </button>
     </div>
+    <div class="button-row">
 
+    <button class="admin-button admin-button--main">
+        <a href="/admin/changelog-builder/">All Categories</a>
+    </button>
+
+<% categories.forEach(function(category){ %>
+    
+        <button  class="admin-button admin-button--main">
+            <a href="/admin/changelog-builder/sorted/<%= category.slug %>">
+                <%= category.title %>
+            </a>
+        </button>
+   
+    <% }) %> 
+    </div>
     <table class="admin-table">
         <thead>
             <tr class="home">

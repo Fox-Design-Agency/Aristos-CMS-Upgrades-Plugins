@@ -10,6 +10,8 @@ const CreateDocumentation = require("../models/queries/documentation/CreateDocum
 const EditDocumentation = require("../models/queries/documentation/EditDocumentation");
 const DeleteDocumentation = require("../models/queries/documentation/DeleteDocumentation");
 const FindAllSortedDocumentation = require("../models/queries/documentation/FindAllSortedDocumentations");
+const SortDocumentationByID = require("../models/queries/documentation/SortDocumentationByID");
+const FindAllSortedDocumentationWithParams = require("../models/queries/documentation/FindSortedDocumentationWithParams");
 /* media model Queries */
 const FindAllMedia = require("../../../../important/admin/adminModels/queries/media/FindAllMedia");
 /* media categories Queries */
@@ -20,15 +22,33 @@ const FindAllDocumentationCategories = require("../models/queries/documentationC
 const FindOneUserByID = require("../../../../important/admin/adminModels/queries/user/FindOneUserWithID");
 module.exports = {
   index(req, res, next) {
-    FindAllDocumentation().then(documentation => {
+    const sorted = FindAllSortedDocumentation();
+    const cats = FindAllDocumentationCategories();
+    Promise.all([sorted, cats]).then(result => {
       res.render(
         "../../../expansion/upgrade/documentation-builder/views/documentation",
         {
-          projects: documentation
+          projects: result[0],
+          categories: result[1]
         }
       );
     });
   } /* end of index function */,
+  catIndex(req, res, next) {
+    const cats = FindAllDocumentationCategories();
+    const sorted = FindAllSortedDocumentationWithParams({
+      category: req.params.category
+    });
+    Promise.all([sorted, cats]).then(result => {
+      res.render(
+        "../../../expansion/upgrade/documentation-builder/views/documentation",
+        {
+          projects: result[0],
+          categories: result[1]
+        }
+      );
+    });
+  } /* end of cat index function */,
   addIndex(req, res, next) {
     let title,
       content,
@@ -94,43 +114,20 @@ module.exports = {
             );
           });
         } else {
-          const CheckIfExists = FindDocumentationWithParams({ slug: slug });
-          CheckIfExists.then(project => {
-            if (project.length > 0) {
-              errors.push({ text: "Project title exists, chooser another." });
-              const AllDocumentationCategories = FindAllDocumentationCategories();
-              const AllMedia = FindAllMedia();
-              Promise.all([AllProjectCategories, AllMedia]).then(result => {
-                res.render(
-                  "../../../expansion/upgrade/documentation-builder/views/add_documentation",
-                  {
-                    errors: errors,
-                    title: "",
-                    content: content,
-                    categories: result[0],
-                    media: result[1],
-                    description: description,
-                    keywords: keywords,
-                    author: author
-                  }
-                );
-              });
-            } else {
-              const ProjectProps = {
-                title: title,
-                slug: slug,
-                content: content,
-                category: category,
-                description: description,
-                keywords: keywords,
-                sorting: 100,
-                author: author
-              };
-              CreateDocumentation(ProjectProps);
-            }
-            req.flash("success_msg", "Documentation added!");
-            res.redirect("/admin/documentation-builder");
-          });
+          const ProjectProps = {
+            title: title,
+            slug: slug,
+            content: content,
+            category: category,
+            description: description,
+            keywords: keywords,
+            sorting: 100,
+            author: author
+          };
+          CreateDocumentation(ProjectProps);
+
+          req.flash("success_msg", "Documentation added!");
+          res.redirect("/admin/documentation-builder");
         }
       } else {
         res.redirect("/users/login");
@@ -189,32 +186,19 @@ module.exports = {
           req.flash("error_msg", "Stuff is wrong, fix stuffs.");
           res.redirect("/admin/documentation-builder/edit-documentation/" + id);
         } else {
-          const CheckIfExists = FindDocumentationWithParams({
+          const ProjectParams = {
+            title: title,
             slug: slug,
-            _id: { $ne: id }
-          });
-          CheckIfExists.then(project => {
-            if (project.length > 0) {
-              req.flash("error_msg", "Project title exists, choose another.");
-              res.redirect(
-                "/admin/documentation-builder/edit-documentation/" + id
-              );
-            } else {
-              const ProjectParams = {
-                title: title,
-                slug: slug,
-                content: content,
-                category: category,
-                description: description,
-                keywords: keywords,
-                author: author
-              };
-              EditDocumentation(id, ProjectParams);
+            content: content,
+            category: category,
+            description: description,
+            keywords: keywords,
+            author: author
+          };
+          EditDocumentation(id, ProjectParams);
 
-              req.flash("success_msg", "Documentation updated!");
-              res.redirect("/admin/documentation-builder");
-            }
-          });
+          req.flash("success_msg", "Documentation updated!");
+          res.redirect("/admin/documentation-builder");
         }
       } else {
         res.redirect("/users/login");
@@ -234,47 +218,11 @@ module.exports = {
       if (user.admin === 1) {
         let ids = req.body["id[]"];
 
-        sortProjects(ids, () => {
-          Product.find({})
-            .sort({ sorting: 1 })
-            .exec(function(err, product) {
-              if (err) {
-                Logger.error(err);
-              }
-            });
-        });
+        SortDocumentationByID(ids);
+        FindAllSortedDocumentation();
       } else {
         res.redirect("/users/login");
       }
     });
-  }
+  }/* end of reorder documentation */
 };
-/* move to queries */
-/* Sort projects function */
-function sortProjects(ids, cb) {
-  let count = 0;
-
-  for (let i = 0; i < ids.length; i++) {
-    let id = ids[i];
-    count++;
-
-    (function(count) {
-      Product.findById(id, function(err, product) {
-        if (err) {
-          Logger.error(err);
-        }
-        product.sorting = count;
-        product.save(function(err) {
-          if (err) {
-            Logger.error(err);
-          }
-
-          ++count;
-          if (count >= ids.length) {
-            cb();
-          }
-        });
-      });
-    })(count);
-  }
-}
