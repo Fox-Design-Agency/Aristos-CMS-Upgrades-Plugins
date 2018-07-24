@@ -1,6 +1,6 @@
 const BlogCategory = require("../../blogCategory");
 /* Aristos Logger Path */
-const Logger = require("../../../../../../important/AristosStuff/AristosLogger/AristosLogger").Logger;
+const errorAddEvent = require("../../../../../../important/AristosStuff/AristosLogger/AristosLogger").addError;
 /**
  * Finds a single blog category in the Blog Category collection.
  * @param {object}  - Object containing <change this>

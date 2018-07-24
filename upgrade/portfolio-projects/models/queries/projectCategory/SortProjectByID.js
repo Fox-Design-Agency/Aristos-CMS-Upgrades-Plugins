@@ -1,6 +1,6 @@
 const ProjectCategory = require("../../projectCategory");
 /* Aristos Logger Path */
-// const Logger = require("../../../../../../important/AristosStuff/AristosLogger/AristosLogger").Logger;
+// const errorAddEvent = require("../../../../../../important/AristosStuff/AristosLogger/AristosLogger").addError;
 /**
  * Sorts pages by ids.
  * @param {string} _id - The ID of the record to find.

@@ -1,5 +1,5 @@
-const Logger = require("../../../../important/AristosStuff/AristosLogger/AristosLogger")
-  .Logger;
+const errorAddEvent = require("../../../../important/AristosStuff/AristosLogger/AristosLogger")
+  .addError;
 
 /* media model Queries */
 const FindAllMedia = require("../../../../important/admin/adminModels/queries/media/FindAllMedia");

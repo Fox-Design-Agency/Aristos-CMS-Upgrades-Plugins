@@ -1,6 +1,6 @@
 const Blog = require("../../blog");
 /* Aristos Logger Path */
-const Logger = require("../../../../../../important/AristosStuff/AristosLogger/AristosLogger").Logger;
+const errorAddEvent = require("../../../../../../important/AristosStuff/AristosLogger/AristosLogger").addError;
 /**
  * Creates a single Blog in the Blog collection.
  * @param {object} blogProps - Object containing title, slug, content, parent, 100, description, keywords, author
@@ -8,5 +8,5 @@ const Logger = require("../../../../../../important/AristosStuff/AristosLogger/A
  */
 module.exports = blogProps => {
   const blog = new Blog(blogProps);
-  blog.save().catch(err => Logger.error(err));
+  blog.save().catch(err => errorAddEvent(err, "blog query error"));
 };

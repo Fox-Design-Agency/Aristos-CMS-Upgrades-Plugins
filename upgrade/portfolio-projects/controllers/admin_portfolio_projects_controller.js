@@ -1,5 +1,5 @@
-const Logger = require("../../../../important/AristosStuff/AristosLogger/AristosLogger")
-  .Logger;
+const errorAddEvent = require("../../../../important/AristosStuff/AristosLogger/AristosLogger")
+  .addError;
 const fs = require("fs-extra");
 const resizeImg = require("resize-img");
 // Project model Queries
@@ -140,7 +140,7 @@ module.exports = {
                   "content/public/images/portfolio_images/" + project._id,
                   function(err) {
                     if (err) {
-                      Logger.error(err);
+                      errorAddEvent(err);
                     }
                   }
                 );
@@ -150,7 +150,7 @@ module.exports = {
                     "/gallery",
                   function(err) {
                     if (err) {
-                      Logger.error(err);
+                      errorAddEvent(err);
                     }
                   }
                 );
@@ -160,7 +160,7 @@ module.exports = {
                     "/gallery/thumbs",
                   function(err) {
                     if (err) {
-                      Logger.error(err);
+                      errorAddEvent(err);
                     }
                   }
                 );
@@ -174,7 +174,7 @@ module.exports = {
                     imageFile;
                   projectImage.mv(path, function(err) {
                     if (err) {
-                      Logger.error(err);
+                      errorAddEvent(err);
                     }
                   });
                 }
@@ -201,7 +201,7 @@ module.exports = {
 
       fs.readdir(galleryDir, (err, files) => {
         if (err) {
-          Logger.error(err);
+          errorAddEvent(err);
         } else {
           galleryImages = files;
           res.render(
@@ -252,7 +252,7 @@ module.exports = {
         let description = req.body.description;
         let author = req.body.author;
         let keywords = req.body.keywords;
-console.log(pimage)
+
         if (errors.length > 0) {
           req.flash("error_msg", "Stuff is wrong, fix stuffs.");
           res.redirect("/admin/portfolio/edit-project/" + id);
@@ -290,7 +290,7 @@ console.log(pimage)
                       pimage,
                     function(err) {
                       if (err) {
-                        Logger.error(err);
+                        errorAddEvent(err);
                       }
                     }
                   );
@@ -305,7 +305,7 @@ console.log(pimage)
 
                 projectImage.mv(path, function(err) {
                   if (err) {
-                    Logger.error(err);
+                    errorAddEvent(err);
                   }
                 });
               }
@@ -340,7 +340,7 @@ console.log(pimage)
 
         productImage.mv(path, function(err) {
           if (err) {
-            Logger.error(err);
+            errorAddEvent(err);
           }
 
           resizeImg(fs.readFileSync(path), { width: 100, height: 100 }).then(
@@ -369,11 +369,11 @@ console.log(pimage)
 
     fs.remove(originalImage, (err)=> {
       if (err) {
-        Logger.error(err);
+        errorAddEvent(err);
       } else {
         fs.remove(thumbsImage, (err)=> {
           if (err) {
-            Logger.error(err);
+            errorAddEvent(err);
           } else {
             req.flash("success_msg", "Image deleted!");
             res.redirect("/admin/portfolio/edit-project/" + req.query.id);
@@ -388,7 +388,7 @@ console.log(pimage)
 
     fs.remove(path, (err)=> {
       if (err) {
-        Logger.error(err);
+        errorAddEvent(err);
       } else {
         DeleteProject(id);
         req.flash("success_msg", "Product deleted!");

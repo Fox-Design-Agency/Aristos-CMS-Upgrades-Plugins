@@ -1,6 +1,6 @@
 const BlogCategory = require("../../blogCategory");
 /* Aristos Logger Path */
-const Logger = require("../../../../../../important/AristosStuff/AristosLogger/AristosLogger").Logger;
+const errorAddEvent = require("../../../../../../important/AristosStuff/AristosLogger/AristosLogger").addError;
 
 /**
  * Edits a single page in the Page collection
@@ -10,6 +10,6 @@ const Logger = require("../../../../../../important/AristosStuff/AristosLogger/A
  */
 module.exports = (_id, blogCategoryProps) => {
   return BlogCategory.findByIdAndUpdate({ _id }, blogCategoryProps).catch(err => {
-    Logger.error(err);
+    errorAddEvent(err, "blog cats query error")
   });
 };

@@ -1,5 +1,5 @@
-const Logger = require("../../../../important/AristosStuff/AristosLogger/AristosLogger")
-  .Logger;
+const errorAddEvent = require("../../../../important/AristosStuff/AristosLogger/AristosLogger")
+  .addError;
 //  Product category model Queries
 const CountProductCategory = require("../models/queries/productCategory/CountProductCategories");
 const FindAllProductCategories = require("../models/queries/productCategory/FindAllProductCategories");

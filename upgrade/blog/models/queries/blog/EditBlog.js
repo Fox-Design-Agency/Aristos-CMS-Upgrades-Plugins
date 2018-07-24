@@ -1,6 +1,6 @@
 const Blog = require("../../blog");
 /* Aristos Logger Path */
-const Logger = require("../../../../../../important/AristosStuff/AristosLogger/AristosLogger").Logger;
+const errorAddEvent = require("../../../../../../important/AristosStuff/AristosLogger/AristosLogger").addError;
 
 /**
  * Edits a single blog in the Blog collection
@@ -10,6 +10,6 @@ const Logger = require("../../../../../../important/AristosStuff/AristosLogger/A
  */
 module.exports = (_id, blogProps) => {
   return Blog.findByIdAndUpdate({ _id }, blogProps).catch(err => {
-    Logger.error(err);
+    errorAddEvent(err, "blog query error")
   });
 };

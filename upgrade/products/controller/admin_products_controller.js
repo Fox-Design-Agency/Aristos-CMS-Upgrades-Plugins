@@ -1,5 +1,5 @@
-const Logger = require("../../../../important/AristosStuff/AristosLogger/AristosLogger")
-  .Logger;
+const errorAddEvent = require("../../../../important/AristosStuff/AristosLogger/AristosLogger")
+  .addError;
 const fs = require("fs-extra");
 const resizeImg = require("resize-img");
 
@@ -194,7 +194,7 @@ module.exports = {
                     "content/public/images/product_images/" + product._id,
                     err => {
                       if (err) {
-                        Logger.error(err);
+                        errorAddEvent(err);
                       }
                     }
                   );
@@ -204,7 +204,7 @@ module.exports = {
                       "/gallery",
                     err => {
                       if (err) {
-                        Logger.error(err);
+                        errorAddEvent(err);
                       }
                     }
                   );
@@ -214,7 +214,7 @@ module.exports = {
                       "/gallery/thumbs",
                     err => {
                       if (err) {
-                        Logger.error(err);
+                        errorAddEvent(err);
                       }
                     }
                   );
@@ -229,7 +229,7 @@ module.exports = {
 
                     productImage.mv(path, function(err) {
                       if (err) {
-                        Logger.error(err);
+                        errorAddEvent(err);
                       }
                     });
                   }
@@ -296,7 +296,7 @@ module.exports = {
                     "content/public/images/product_images/" + product._id,
                     err => {
                       if (err) {
-                        Logger.error(err);
+                        errorAddEvent(err);
                       }
                     }
                   );
@@ -306,7 +306,7 @@ module.exports = {
                       "/gallery",
                     err => {
                       if (err) {
-                        Logger.error(err);
+                        errorAddEvent(err);
                       }
                     }
                   );
@@ -316,7 +316,7 @@ module.exports = {
                       "/gallery/thumbs",
                     err => {
                       if (err) {
-                        Logger.error(err);
+                        errorAddEvent(err);
                       }
                     }
                   );
@@ -331,7 +331,7 @@ module.exports = {
 
                     productImage.mv(path, function(err) {
                       if (err) {
-                        Logger.error(err);
+                        errorAddEvent(err);
                       }
                     });
                   }
@@ -468,7 +468,7 @@ module.exports = {
                     "content/public/images/product_images/" + id + "/" + pimage,
                     function(err) {
                       if (err) {
-                        Logger.error(err);
+                        errorAddEvent(err);
                       }
                     }
                   );
@@ -483,7 +483,7 @@ module.exports = {
 
                 productImage.mv(path, function(err) {
                   if (err) {
-                    Logger.error(err);
+                    errorAddEvent(err);
                   }
                 });
               }
@@ -517,7 +517,7 @@ module.exports = {
 
         productImage.mv(path, err => {
           if (err) {
-            Logger.error(err);
+            errorAddEvent(err);
           }
 
           resizeImg(fs.readFileSync(path), { width: 100, height: 100 }).then(
@@ -546,11 +546,11 @@ module.exports = {
 
     fs.remove(originalImage, err => {
       if (err) {
-        Logger.error(err);
+        errorAddEvent(err);
       } else {
         fs.remove(thumbsImage, err => {
           if (err) {
-            Logger.error(err);
+            errorAddEvent(err);
           } else {
             req.flash("success_msg", "Image deleted!");
             res.redirect("/admin/products/edit-product/" + req.query.id);
@@ -566,7 +566,7 @@ module.exports = {
 
     fs.remove(path, err => {
       if (err) {
-        Logger.error(err);
+        errorAddEvent(err);
       } else {
         DeleteProduct(id);
 
@@ -587,7 +587,7 @@ module.exports = {
             .sort({ sorting: 1 })
             .exec(function(err, product) {
               if (err) {
-                Logger.error(err);
+                errorAddEvent(err);
               }
             });
         });
@@ -609,12 +609,12 @@ function sortProducts(ids, cb) {
     (function(count) {
       Product.findById(id, function(err, product) {
         if (err) {
-          Logger.error(err);
+          errorAddEvent(err);
         }
         product.sorting = count;
         product.save(function(err) {
           if (err) {
-            Logger.error(err);
+            errorAddEvent(err);
           }
 
           ++count;

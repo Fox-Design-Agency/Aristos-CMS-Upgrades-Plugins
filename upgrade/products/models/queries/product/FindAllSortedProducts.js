@@ -1,6 +1,6 @@
 const Product = require("../../product");
 // Aristos Logger Path
-// const Logger = require("../../../AristosLogger/AristosStuff/AristosLogger").Logger;
+// const errorAddEvent = require("../../../../../../important/AristosStuff/AristosLogger/AristosLogger").addError;
 
 /**
  * Finds a single page in the Page collection.

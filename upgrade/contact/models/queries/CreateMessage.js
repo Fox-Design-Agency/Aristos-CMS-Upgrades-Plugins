@@ -1,6 +1,6 @@
 const ContactMessage = require("../contactMessage");
 /* Aristos Logger Path */
-const Logger = require("../../../../../important/AristosStuff/AristosLogger/AristosLogger").Logger;
+const errorAddEvent = require("../../../../../important/AristosStuff/AristosLogger/AristosLogger").addError;
 /**
  * Finds a single page in the Page collection.
  * @param {object} pageProps - Object containing title, slug, content, parent, 100, description, keywords, author
@@ -8,5 +8,5 @@ const Logger = require("../../../../../important/AristosStuff/AristosLogger/Aris
  */
 module.exports = messageProps => {
   const contactMessage = new ContactMessage(messageProps);
-  contactMessage.save().catch(err => Logger.error(err));
+  contactMessage.save().catch(err => errorAddEvent(err, "contact message query error"));
 };

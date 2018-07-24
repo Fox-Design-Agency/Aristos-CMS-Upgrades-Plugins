@@ -1,6 +1,6 @@
 const Changelog = require("../../changelog");
 /* Aristos Logger Path */
-const Logger = require("../../../../../../important/AristosStuff/AristosLogger/AristosLogger").Logger;
+const errorAddEvent = require("../../../../../../important/AristosStuff/AristosLogger/AristosLogger").addError;
 
 /**
  * Edits a single page in the Page collection
@@ -10,6 +10,6 @@ const Logger = require("../../../../../../important/AristosStuff/AristosLogger/A
  */
 module.exports = (_id, logProps) => {
   return Changelog.findByIdAndUpdate({ _id }, logProps).catch(err => {
-    Logger.error(err);
+    errorAddEvent(err, "changelof query error")
   });
 };

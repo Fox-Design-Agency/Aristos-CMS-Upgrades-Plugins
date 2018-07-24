@@ -1,6 +1,6 @@
 const ContactMessage = require("../contactMessage");
 /* Aristos Logger Path */
-const Logger = require("../../../../../important/AristosStuff/AristosLogger/AristosLogger").Logger;
+const errorAddEvent = require("../../../../../important/AristosStuff/AristosLogger/AristosLogger").addError;
 
 /**
  * Edits a single page in the Page collection
@@ -10,6 +10,6 @@ const Logger = require("../../../../../important/AristosStuff/AristosLogger/Aris
  */
 module.exports = (_id, messageProps) => {
   return ContactMessage.findByIdAndUpdate({ _id }, messageProps).catch(err => {
-    Logger.error(err);
+    errorAddEvent(err, "contact message query error")
   });
 };

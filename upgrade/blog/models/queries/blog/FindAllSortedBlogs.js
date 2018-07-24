@@ -1,6 +1,6 @@
 const Blog = require("../../blog");
 /* Aristos Logger Path */
-// const Logger = require("../../../../../../important/AristosStuff/AristosLogger/AristosLogger").Logger;
+// const errorAddEvent = require("../../../../../../important/AristosStuff/AristosLogger/AristosLogger").addError;
 
 /**
  * Finds all blogs in the Blog collection sorted by their sorting value.

@@ -1,6 +1,6 @@
 const Product = require("../../product");
 // Aristos Logger Path
-const Logger = require("../../../../../../important/AristosStuff/AristosLogger/AristosLogger").Logger;
+const errorAddEvent = require("../../../../../../important/AristosStuff/AristosLogger/AristosLogger").addError;
 
 /**
  * Edits a single page in the Page collection
@@ -10,6 +10,6 @@ const Logger = require("../../../../../../important/AristosStuff/AristosLogger/A
  */
 module.exports = (_id, productProps) => {
   return Product.findByIdAndUpdate({ _id }, productProps).catch(err => {
-    Logger.error(err);
+    errorAddEvent(err, "product query error")
   });
 };

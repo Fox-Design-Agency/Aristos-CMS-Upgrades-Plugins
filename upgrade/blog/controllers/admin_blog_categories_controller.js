@@ -1,5 +1,5 @@
-const Logger = require("../../../../important/AristosStuff/AristosLogger/AristosLogger")
-  .Logger;
+const errorAddEvent = require("../../../../important/AristosStuff/AristosLogger/AristosLogger")
+  .addError;
 /* Blog Category Model Queries */
 const CountBlogCategories = require("../models/queries/blogCategory/CountBlogCategory");
 const FindAllBlogCategories = require("../models/queries/blogCategory/FindAllBlogCategory");

@@ -1,6 +1,6 @@
 const ProductCategory = require("../../productCategory");
 // Aristos Logger Path
-const Logger = require("../../../../../../important/AristosStuff/AristosLogger/AristosLogger").Logger;
+const errorAddEvent = require("../../../../../../important/AristosStuff/AristosLogger/AristosLogger").addError;
 /**
  * Finds a single page in the Page collection.
  * @param {object} pageProps - Object containing title, slug, content, parent, 100, description, keywords, author
@@ -8,5 +8,5 @@ const Logger = require("../../../../../../important/AristosStuff/AristosLogger/A
  */
 module.exports = productCategoryProps => {
   const productCategory = new ProductCategory(productCategoryProps);
-  productCategory.save().catch(err => Logger.error(err));
+  productCategory.save().catch(err => errorAddEvent(err, "product category query error"));
 };

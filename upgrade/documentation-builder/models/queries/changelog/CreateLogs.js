@@ -1,7 +1,6 @@
 const Changelog = require("../../changelog");
 /* Aristos Logger Path */
-const Logger = require("../../../../../../important/AristosStuff/AristosLogger/AristosLogger")
-  .Logger;
+const errorAddEvent = require("../../../../../../important/AristosStuff/AristosLogger/AristosLogger").addError;
 /**
  * Finds a single page in the Page collection.
  * @param {object} pageProps - Object containing title, slug, content, parent, 100, description, keywords, author
@@ -9,5 +8,5 @@ const Logger = require("../../../../../../important/AristosStuff/AristosLogger/A
  */
 module.exports = logProps => {
   const changelog = new Changelog(logProps);
-  return changelog.save().catch(err => Logger.error(err));
+  return changelog.save().catch(err => errorAddEvent(err, "changelof query error"));
 };
