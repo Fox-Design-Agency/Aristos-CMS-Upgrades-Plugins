@@ -3,15 +3,12 @@ const pluginChecker = require("../../../plugins");
 module.exports = {
   async theFunction() {
     await pluginChecker.then(plugin => {
+      fs.ensureFile("./expansion/upgrade/blog/routes/blogRoutes.json", err => {
+        fs.writeJson("./expansion/upgrade/blog/routes/blogRoutes.json", {
+          route: "./routes/admin_blogs"
+        });
+      });
       plugin.forEach(theThings => {
-        fs.ensureFile(
-          "./expansion/upgrade/blog/routes/blogRoutes.json",
-          err => {
-            fs.writeJson("./expansion/upgrade/blog/routes/blogRoutes.json", {
-              route: "./routes/admin_blogs"
-            });
-          }
-        );
         if (theThings.switch === "blogsSwitch") {
           if (theThings.switchRoutes === "true") {
             fs.writeJson("./expansion/upgrade/blog/routes/blogRoutes.json", {
@@ -21,9 +18,12 @@ module.exports = {
             fs.ensureFile(
               "./expansion/upgrade/blog/routes/blogRoutes.json",
               err => {
-                fs.writeJson("./expansion/upgrade/blog/routes/blogRoutes.json", {
-                  route: "./routes/admin_blogs"
-                });
+                fs.writeJson(
+                  "./expansion/upgrade/blog/routes/blogRoutes.json",
+                  {
+                    route: "./routes/admin_blogs"
+                  }
+                );
               }
             );
           }
