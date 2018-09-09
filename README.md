@@ -43,6 +43,33 @@ an example of using a simple or multiple option flags are as shown:
 yo aristos --blog
 yo aristos --products --blog
 ```
+
+You can also change the default color layout by using the flags:
+```
+--blackWhite
+--blueGreen
+--cappuccino
+--castiel
+--dollhouse
+--emerald
+--fire
+--forest
+--interesting
+--lavander
+--blue
+--orange
+--pink
+--purple
+--sea
+--smoke
+--strange
+--summer
+--sweets
+```
+an example of using the color option flags are as shown:
+```
+yo aristos --blue
+```
 Each option flag needs a space after it, otherwise two options will be seen by the generator as a single option and not function correctly.
 
 The current state of the upgrade/plugin packages should also be noted:

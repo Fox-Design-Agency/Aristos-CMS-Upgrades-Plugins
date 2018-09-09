@@ -41,6 +41,27 @@ module.exports = {
               }
             );
           }
+          if (theThings.modelSwitch === "true") {
+            theThings.modelRoutes.forEach(route => {
+              fs.writeJson(
+                `./expansion/upgrade/products/routes/checkers/${route}ModelRoutes.json`,
+                {
+                  route: `../../../../../plugins/${theThings.folder}/models/${route}`
+                }
+              );
+            });
+          }
+
+          if(theThings.categoriesSwitch === "true"){
+            fs.writeJson(
+              "./expansion/upgrade/products/routes/checkers/productCategoriesRoutes.json",
+              {
+                route: `../../plugins/${theThings.folder}/routes/productCategories/admin_product_categories.js`,
+                addView: `../../../../plugins/${theThings.folder}/viewAdds/productsCategories/productCategoriesAdd`,
+                editView: `../../../../plugins/${theThings.folder}/viewAdds/productsCategories/productCategoriesEdit`
+              }
+            );
+          }
         }
       });
     });
@@ -85,6 +106,21 @@ module.exports = {
         }
       }
     );
+    fs.pathExists(
+      "./expansion/upgrade/products/routes/checkers/productCategoriesRoutes.json",
+      (err, exists) => {
+        if (!exists) {
+          fs.writeJson(
+            "./expansion/upgrade/products/routes/checkers/productCategoriesRoutes.json",
+            {
+              route: "./routes/admin_product_categories",
+              addView: `../pluginViews/productCategoriesAdd`,
+              editView: `../pluginViews/productCategoriesEdit`
+            }
+          );
+        }
+      }
+    );
     /* end of default product routes */
     /* default product Model routes */
     fs.pathExists(
@@ -121,6 +157,19 @@ module.exports = {
             "./expansion/upgrade/products/routes/checkers/productOrderModelRoutes.json",
             {
               route: "../../orders"
+            }
+          );
+        }
+      }
+    );
+    fs.pathExists(
+      "./expansion/upgrade/products/routes/checkers/productCategoryModelRoutes.json",
+      (err, exists) => {
+        if (!exists) {
+          fs.writeJson(
+            "./expansion/upgrade/products/routes/checkers/productCategoryModelRoutes.json",
+            {
+              route: "../../productCategory"
             }
           );
         }
